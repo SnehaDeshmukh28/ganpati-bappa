@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5b0e15">
+<title>Deshmukh Family Ganesh Chaturthi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<!-- Load Bappa's photos up front so they're ready the moment the doors open -->
+<link rel="preload" as="image" href="assets/ganpati.jpg">
+<link rel="preload" as="image" href="assets/ganpati-portrait.jpg">
+<link rel="stylesheet" href="style.css?v=7">
+</head>
+<body>
+
+<!-- ============ TEMPLE DOORS (opening darshan moment) ============ -->
+<div class="doors" id="doors">
+  <div class="door door-left"></div>
+  <div class="door door-right"></div>
+  <div class="door-prompt" id="door-prompt">
+    <div class="toran">🌼🍃🌼🍃🌼🍃🌼</div>
+    <div class="bell-icon">🔔</div>
+    <p class="door-title">श्री गणेशाय नमः</p>
+    <p class="door-text">Tap for darshan</p>
+  </div>
+</div>
+
+<!-- ============ AMBIENT DECOR ============ -->
+<div class="sky">
+  <span class="diya">🪔</span><span class="diya">🪔</span><span class="diya">🪔</span>
+</div>
+<div class="petal-layer" id="petal-layer"></div>
+
+<main class="card">
+
+  <!-- ---------- 1. WELCOME ---------- -->
+  <section id="section-welcome" class="screen active">
+    <div class="bappa-circle bappa-circle-lg" id="welcome-photo">
+      <div class="halo"></div>
+      <div class="bappa-frame">
+        <img class="bappa-img" src="assets/ganpati.jpg" alt="Our Ganpati Bappa at home">
+        <div class="photo-fallback">🕉️</div>
+      </div>
+    </div>
+
+    <p class="day-badge" id="day-badge"></p>
+
+    <h1>श्री गणेशाय नमः</h1>
+    <h2>Welcome to<br><span class="highlight">Deshmukh Family's</span><br>Ganesh Chaturthi Celebration</h2>
+    <p class="lead">Thank you so much for being here and sharing in our joy 🙏</p>
+
+    <svg class="divider" viewBox="0 0 200 20" preserveAspectRatio="none">
+      <line x1="0" y1="10" x2="80" y2="10" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="10" r="5" fill="currentColor"/>
+      <line x1="120" y1="10" x2="200" y2="10" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+
+    <button class="btn btn-primary" id="btn-goto-wish">🌸 Seek Bappa's Blessings 🌸</button>
+  </section>
+
+  <!-- ---------- 2. WISH ---------- -->
+  <section id="section-wish" class="screen">
+    <div class="bappa-circle bappa-circle-sm">
+      <div class="halo"></div>
+      <div class="bappa-frame">
+        <img class="bappa-img" src="assets/ganpati.jpg" alt="">
+        <div class="photo-fallback">🕉️</div>
+      </div>
+    </div>
+    <h2>What blessing do you<br>seek from Bappa today?</h2>
+    <p class="lead small">Whisper your wish, Bappa is listening 🌺</p>
+
+    <label class="field">
+      <span>Your name <em>(optional)</em></span>
+      <input type="text" id="input-name" placeholder="e.g. Priya" autocomplete="name" maxlength="30">
+    </label>
+
+    <label class="field">
+      <span>Your wish</span>
+      <textarea id="input-wish" rows="3" maxlength="140" placeholder="e.g. Good marks in my exams, health for my family, success in my new job..."></textarea>
+      <p class="field-error" id="wish-error">Please share your wish with Bappa 🙏</p>
+    </label>
+
+    <button class="btn btn-primary" id="btn-submit-wish">🌸 Offer my wish at Bappa's feet</button>
+    <p class="fineprint">Your wish stays on your phone. Nothing is sent anywhere.</p>
+  </section>
+
+  <!-- ---------- 3. BLESSING ---------- -->
+  <section id="section-blessing" class="screen">
+    <p class="blessing-eyebrow">Bappa has heard you 🙏</p>
+
+    <div class="blessing-card" id="blessing-card">
+      <div class="bc-photo">
+        <img class="bappa-img" src="assets/ganpati-portrait.jpg" alt="Ganpati Bappa">
+        <div class="photo-fallback">🕉️</div>
+      </div>
+      <p class="bc-title">Bappa's Blessing</p>
+      <p class="bc-name" id="bc-name"></p>
+      <p class="bc-wish" id="bc-wish"></p>
+      <p class="bc-blessing" id="bc-blessing"></p>
+      <div class="bc-bottom">
+        <p>गणपती बाप्पा मोरया!</p>
+        <span>Deshmukh Family · Ganesh Chaturthi</span>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-download" id="btn-download">📥 Download blessing photo</button>
+    <p class="fineprint" id="download-hint">Keep Bappa's blessing with you, always 🙏</p>
+
+    <svg class="divider" viewBox="0 0 200 20" preserveAspectRatio="none">
+      <line x1="0" y1="10" x2="80" y2="10" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="10" r="5" fill="currentColor"/>
+      <line x1="120" y1="10" x2="200" y2="10" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+
+    <p class="lead small">Blessings are always free.<br>If your heart says so, you may leave an offering 🌼</p>
+    <p class="digital-note">📲 We know nobody carries cash these days, so this year our family and Bappa have gone digital too!</p>
+    <button class="btn btn-primary" id="btn-goto-offering">🪔 Leave an offering</button>
+    <button class="btn btn-ghost" id="btn-skip-offering">Maybe another time</button>
+  </section>
+
+  <!-- ---------- 4. OFFERING ---------- -->
+  <section id="section-offering" class="screen">
+    <div class="om small">ॐ</div>
+    <h2>Choose your offering</h2>
+    <p class="lead small">Every offering, big or small, carries the same devotion 🙏</p>
+
+    <div class="offering-grid">
+      <button class="offering" data-amount="21">
+        <span class="of-emoji">🌺</span>
+        <span class="of-label">Flowers</span>
+        <span class="of-amount">₹21</span>
+      </button>
+      <button class="offering" data-amount="51">
+        <span class="of-emoji">🪔</span>
+        <span class="of-label">Diya</span>
+        <span class="of-amount">₹51</span>
+      </button>
+      <button class="offering" data-amount="101">
+        <span class="of-emoji">🍎</span>
+        <span class="of-label">Fruits</span>
+        <span class="of-amount">₹101</span>
+      </button>
+      <button class="offering" data-amount="201">
+        <span class="of-emoji">✨</span>
+        <span class="of-label">Modaks</span>
+        <span class="of-amount">₹201</span>
+      </button>
+      <button class="offering offering-wide" data-amount="custom">
+        <span class="of-emoji">💛</span>
+        <span class="of-label">Whatever my heart says</span>
+      </button>
+    </div>
+
+    <input type="number" id="input-custom-amount" class="custom-amount" placeholder="Enter amount (₹)" min="1" inputmode="numeric" style="display:none">
+
+    <button class="btn btn-primary" id="btn-pay">🙏 Offer via GPay</button>
+    <button class="btn btn-ghost" id="btn-pay-other">Use another UPI app</button>
+    <button class="btn btn-ghost" id="btn-back-to-blessing">← Back</button>
+  </section>
+
+  <!-- ---------- 5. WAITING ---------- -->
+  <section id="section-waiting" class="screen">
+    <div class="bappa-circle bappa-circle-sm waiting">
+      <div class="halo"></div>
+      <div class="bappa-frame">
+        <img class="bappa-img" src="assets/ganpati.jpg" alt="">
+        <div class="photo-fallback">🕉️</div>
+      </div>
+    </div>
+    <h2>Complete your offering<br>in your payment app</h2>
+    <p class="lead small">Once you're done, come back here. Bappa is waiting 🙏</p>
+
+    <div class="fallback-panel" id="pay-fallback">
+      <p class="fallback-title">Payment app didn't open?</p>
+      <p class="fallback-body">No problem! Open GPay (or any UPI app) yourself and send to this UPI ID:</p>
+      <div class="upi-row">
+        <code id="upi-id-display"></code>
+        <button class="copy-btn" id="btn-copy-upi">Copy</button>
+      </div>
+      <p class="fallback-body">Then come back to this page 🙏</p>
+    </div>
+
+    <button class="btn btn-primary" id="btn-confirm-paid">✅ I've completed my offering</button>
+    <button class="btn btn-ghost" id="btn-back-from-waiting">← Go back</button>
+  </section>
+
+  <!-- ---------- 6. THANK YOU ---------- -->
+  <section id="section-thankyou" class="screen">
+    <div class="bappa-circle bappa-circle-md">
+      <div class="halo"></div>
+      <div class="bappa-frame">
+        <img class="bappa-img" src="assets/ganpati.jpg" alt="Ganpati Bappa">
+        <div class="photo-fallback">🕉️</div>
+      </div>
+    </div>
+    <h2 id="ty-heading">Thank you<br>from our family to yours</h2>
+    <p class="thankyou-text" id="ty-text"></p>
+
+    <p class="thankyou">गणपती बाप्पा मोरया! 🙏</p>
+
+    <svg class="divider" viewBox="0 0 200 20" preserveAspectRatio="none">
+      <line x1="0" y1="10" x2="80" y2="10" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="10" r="5" fill="currentColor"/>
+      <line x1="120" y1="10" x2="200" y2="10" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+
+    <button class="btn btn-ghost" id="btn-restart">🌸 Send another wish</button>
+  </section>
+
+</main>
+
+<footer>With love, the Deshmukh Family 🪔</footer>
+
+<!-- iPhone: shows the finished photo so it can be saved straight to Photos -->
+<div class="save-overlay" id="save-overlay" hidden>
+  <div class="save-sheet">
+    <img id="save-preview" alt="Your blessing photo from Bappa">
+    <p class="save-instructions">Press and hold the photo,<br>then tap <strong>Save to Photos</strong> 📲</p>
+    <button class="btn btn-ghost btn-light" id="btn-close-save">Done</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" hidden></div>
+
+<audio id="audio-morya" src="assets/bappa-morya.mp3" preload="auto"></audio>
+
+<script src="script.js?v=7"></script>
+</body>
+</html>
