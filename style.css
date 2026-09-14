@@ -1,0 +1,647 @@
+:root {
+  --maroon: #5b0e15;
+  --maroon-deep: #3a070c;
+  --saffron: #ff7a1a;
+  --gold: #ffcd6b;
+  --gold-soft: #f8e6c2;
+  --text-light: #fff6e8;
+  --card-bg: #fffaf1;
+  --text-dark: #3a2417;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  font-family: 'Poppins', sans-serif;
+  background:
+    radial-gradient(circle at 50% 0%, var(--saffron) 0%, var(--maroon) 55%, var(--maroon-deep) 100%);
+  background-attachment: fixed;
+  color: var(--text-light);
+}
+
+/* ============ TEMPLE DOORS ============ */
+.doors {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  cursor: pointer;
+}
+.doors.open { pointer-events: none; }
+.doors.gone { display: none; }
+
+.door {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50.5%;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 38px, rgba(0,0,0,.18) 38px 40px),
+    radial-gradient(circle at 50% 12%, rgba(255,205,107,.22), transparent 60%),
+    linear-gradient(180deg, #6d1119 0%, #4a0b12 100%);
+  transition: transform 1.5s cubic-bezier(.7,.02,.3,1);
+  box-shadow: inset 0 0 60px rgba(0,0,0,.55);
+}
+.door::after {
+  /* rows of brass studs */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--gold) 0 3px, transparent 3px);
+  background-size: 46px 46px;
+  background-position: 22px 22px;
+  opacity: .3;
+}
+.door-left  { left: 0;  border-right: 3px solid var(--gold); transform: translateX(0); }
+.door-right { right: 0; border-left: 3px solid var(--gold);  transform: translateX(0); }
+.doors.open .door-left  { transform: translateX(-101%); }
+.doors.open .door-right { transform: translateX(101%); }
+
+.door-prompt {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  transition: opacity .5s ease;
+}
+.doors.open .door-prompt { opacity: 0; }
+
+.toran {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  font-size: 26px;
+  letter-spacing: 6px;
+  padding-top: 6px;
+  text-align: center;
+  filter: drop-shadow(0 3px 5px rgba(0,0,0,.5));
+}
+.bell-icon {
+  font-size: 54px;
+  animation: swing 2.2s ease-in-out infinite;
+  transform-origin: 50% 0%;
+  filter: drop-shadow(0 0 14px rgba(255,205,107,.75));
+}
+@keyframes swing {
+  0%, 100% { transform: rotate(-11deg); }
+  50%      { transform: rotate(11deg); }
+}
+.door-title {
+  font-family: 'Yatra One', cursive;
+  font-size: 24px;
+  color: var(--gold);
+  margin: 10px 0 0;
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+}
+.door-text {
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-soft);
+  margin: 0;
+  animation: pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* ============ AMBIENT ============ */
+.sky { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.diya {
+  position: absolute;
+  font-size: 28px;
+  opacity: .35;
+  filter: drop-shadow(0 0 6px rgba(255,205,107,.6));
+  animation: flicker 3s ease-in-out infinite;
+}
+.diya:nth-child(1) { top: 6%; left: 8%; }
+.diya:nth-child(2) { top: 4%; right: 10%; font-size: 22px; animation-delay: .7s; }
+.diya:nth-child(3) { bottom: 6%; left: 50%; font-size: 24px; animation-delay: 1.4s; }
+@keyframes flicker { 0%,100% { opacity: .3; } 50% { opacity: .55; } }
+
+/* falling petals */
+.petal-layer { position: fixed; inset: 0; pointer-events: none; z-index: 50; overflow: hidden; }
+.petal {
+  position: absolute;
+  top: -40px;
+  font-size: 20px;
+  animation: fall linear forwards;
+}
+@keyframes fall {
+  0%   { transform: translateY(-40px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(105vh) rotate(420deg); opacity: 0; }
+}
+
+/* wish rising to Bappa's feet */
+.rising-wish {
+  position: fixed;
+  left: 50%;
+  bottom: 22%;
+  transform: translateX(-50%);
+  z-index: 60;
+  pointer-events: none;
+  text-align: center;
+  max-width: 78%;
+  animation: rise 1.6s ease-out forwards;
+}
+.rising-wish .rw-petal { font-size: 40px; display: block; }
+.rising-wish .rw-text {
+  display: inline-block;
+  margin-top: 6px;
+  background: rgba(255,250,241,.95);
+  color: var(--maroon);
+  font-size: 13px;
+  padding: 7px 13px;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+}
+@keyframes rise {
+  0%   { opacity: 0; transform: translateX(-50%) translateY(30px) scale(.85); }
+  20%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-190px) scale(1.05); }
+}
+
+/* ============ CARD + SCREENS ============ */
+main.card {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: 32px auto;
+  background: var(--card-bg);
+  color: var(--text-dark);
+  border-radius: 24px;
+  padding: 30px 26px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.35);
+  border: 3px solid var(--gold);
+  min-height: 480px;
+}
+
+[hidden] { display: none !important; }
+
+.screen { display: none; text-align: center; animation: fadeIn .45s ease; }
+.screen.active { display: block; }
+.screen.leaving { animation: fadeOut .18s ease forwards; }
+@keyframes fadeOut { to { opacity: 0; transform: translateY(-6px); } }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ BAPPA PHOTO ============ */
+.bappa-circle {
+  --size: 200px;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  margin: 4px auto 18px;
+}
+.bappa-circle-lg { --size: 210px; }
+.bappa-circle-md { --size: 128px; }
+.bappa-circle-sm { --size: 96px; margin-bottom: 14px; }
+
+/* slowly turning golden aura behind the photo */
+.halo {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    rgba(255,205,107,0), rgba(255,205,107,.9), rgba(255,122,26,.55),
+    rgba(255,205,107,0), rgba(255,205,107,.9), rgba(255,122,26,.55),
+    rgba(255,205,107,0));
+  filter: blur(7px);
+  animation: spin 9s linear infinite;
+}
+.bappa-circle-sm .halo { inset: -7px; filter: blur(5px); }
+
+.bappa-frame {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--gold);
+  background: linear-gradient(160deg, #fff2d9, #ffe0b0);
+  box-shadow: 0 8px 24px rgba(91,14,21,.3), inset 0 0 0 2px rgba(255,255,255,.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bappa-circle-sm .bappa-frame { border-width: 3px; }
+.bappa-frame .bappa-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 30%;
+  display: block;
+}
+.photo-fallback { display: none; font-size: 64px; line-height: 1; }
+.bappa-circle-sm .photo-fallback { font-size: 40px; }
+.img-missing .bappa-img { display: none; }
+.img-missing .photo-fallback { display: block; }
+
+/* the darshan reveal as the doors part */
+.bappa-circle.darshan .bappa-frame { animation: darshan 1.6s cubic-bezier(.2,.8,.2,1) both; }
+.bappa-circle.darshan .halo { animation: haloIn 1.8s ease-out both, spin 9s linear 1.8s infinite; }
+@keyframes darshan {
+  0%   { transform: scale(.78); filter: brightness(.55); }
+  60%  { filter: brightness(1.12); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+@keyframes haloIn {
+  0%   { opacity: 0; transform: scale(.7) rotate(0deg); }
+  100% { opacity: 1; transform: scale(1) rotate(160deg); }
+}
+
+/* gentle breathing while waiting for the payment app */
+.bappa-circle.waiting .bappa-frame { animation: breathe 2.6s ease-in-out infinite; }
+@keyframes breathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+
+.day-badge {
+  display: none;
+  background: var(--gold-soft);
+  color: var(--maroon);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .5px;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin: 0 auto 14px;
+  width: fit-content;
+}
+
+.om { font-size: 48px; color: var(--saffron); margin-bottom: 8px; font-family: 'Yatra One', cursive; }
+.om.small { font-size: 32px; }
+.om.spin { animation: spin 3s linear infinite; }
+@keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+
+h1 { font-family: 'Yatra One', cursive; font-size: 26px; color: var(--maroon); margin: 0 0 12px; }
+h2 { font-family: 'Yatra One', cursive; font-size: 22px; line-height: 1.4; color: var(--maroon); margin: 0 0 10px; }
+.highlight { color: var(--saffron); }
+
+.lead { font-size: 15px; color: #6b4a35; margin: 0 0 22px; }
+.lead.small { font-size: 14px; margin-bottom: 18px; }
+
+.divider { width: 100%; height: 20px; color: var(--saffron); margin: 18px 0; }
+
+/* ============ BUTTONS ============ */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 15px 18px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 14px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:active { transform: scale(.97); }
+.btn-primary {
+  background: linear-gradient(135deg, var(--saffron), #e8590c);
+  color: #fff8ef;
+  box-shadow: 0 6px 16px rgba(232,89,12,.35);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--maroon);
+  border: 2px solid var(--gold-soft);
+}
+.btn[disabled] { opacity: .7; cursor: progress; }
+.btn-download { margin-top: 14px; }
+.btn-light { color: var(--gold-soft); border-color: rgba(248,230,194,.4); }
+
+/* ============ FORM ============ */
+.field { text-align: left; margin-bottom: 16px; display: block; }
+.field > span { display: block; font-size: 13px; font-weight: 600; color: var(--maroon); margin-bottom: 6px; }
+.field em { font-weight: 400; color: #9a7b62; font-style: normal; }
+
+input[type="text"], textarea, input[type="number"] {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 2px solid var(--gold-soft);
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  background: #fffdf8;
+  color: var(--text-dark);
+  resize: none;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--saffron); }
+
+.field-error {
+  display: none;
+  color: #c0392b;
+  font-size: 12.5px;
+  margin: 6px 0 0;
+}
+
+/* ============ OFFERINGS ============ */
+.offering-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.offering {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 14px 8px;
+  border-radius: 14px;
+  border: 2px solid var(--gold-soft);
+  background: #fffdf8;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.offering:active { transform: scale(.96); }
+.offering.selected {
+  background: linear-gradient(135deg, #fff1dc, #ffe4c0);
+  border-color: var(--saffron);
+  box-shadow: 0 4px 12px rgba(232,89,12,.2);
+}
+.offering-wide { grid-column: 1 / -1; flex-direction: row; justify-content: center; gap: 8px; }
+.of-emoji { font-size: 26px; line-height: 1; }
+.offering-wide .of-emoji { font-size: 20px; }
+.of-label { font-size: 13px; font-weight: 600; color: var(--maroon); }
+.of-amount { font-size: 13px; font-weight: 700; color: var(--saffron); }
+.custom-amount { margin-bottom: 14px; }
+
+/* ============ BLESSING CARD ============ */
+.blessing-eyebrow {
+  font-family: 'Yatra One', cursive;
+  font-size: 20px;
+  color: var(--maroon);
+  margin: 0 0 14px;
+}
+.blessing-card {
+  background: linear-gradient(165deg, #fff8e9 0%, #ffeed3 100%);
+  border: 3px double var(--gold);
+  border-radius: 18px;
+  padding: 14px 16px 16px;
+  margin-bottom: 6px;
+  box-shadow: 0 6px 20px rgba(91,14,21,.14);
+  animation: cardIn .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(18px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* temple-arch window for Bappa at the top of the card */
+.bc-photo {
+  position: relative;
+  width: 78%;
+  aspect-ratio: 7 / 6;
+  margin: 0 auto 12px;
+  border-radius: 50% 50% 16px 16px / 36% 36% 16px 16px;
+  overflow: hidden;
+  border: 3px solid var(--gold);
+  background: linear-gradient(160deg, #fff2d9, #ffe0b0);
+  box-shadow: 0 6px 18px rgba(91,14,21,.25), 0 0 0 5px rgba(255,205,107,.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.bc-photo .bappa-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 8%;
+  display: block;
+}
+.bc-title {
+  font-family: 'Yatra One', cursive;
+  font-size: 15px;
+  letter-spacing: 1px;
+  color: var(--saffron);
+  margin: 0;
+}
+.bc-name {
+  font-family: 'Yatra One', cursive;
+  font-size: 19px;
+  color: var(--maroon);
+  margin: 8px 0 2px;
+}
+.bc-wish {
+  font-size: 13px;
+  font-style: italic;
+  color: #8a6a52;
+  margin: 0 0 12px;
+}
+.bc-wish:empty { display: none; }
+.bc-blessing {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  margin: 0 0 14px;
+}
+.bc-bottom { border-top: 1px dashed var(--gold); padding-top: 10px; }
+.bc-bottom p {
+  font-family: 'Yatra One', cursive;
+  font-size: 15px;
+  color: var(--maroon);
+  margin: 0 0 2px;
+}
+.bc-bottom span { font-size: 11px; color: #9a7b62; letter-spacing: .5px; }
+
+.thankyou-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-dark);
+  background: var(--gold-soft);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 0 0 16px;
+}
+.thankyou {
+  font-family: 'Yatra One', cursive;
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--maroon);
+  margin: 6px 0 16px;
+}
+
+.fineprint { font-size: 12px; color: #9a7b62; margin-top: 12px; }
+
+.digital-note {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--maroon);
+  background: linear-gradient(135deg, #fff1dc, #ffe4c0);
+  border: 1.5px dashed var(--saffron);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin: -6px 0 14px;
+}
+
+/* ============ PLACE THE OFFERING ============ */
+.pay-option {
+  text-align: left;
+  background: #fffdf8;
+  border: 2px solid var(--gold-soft);
+  border-radius: 16px;
+  padding: 14px 16px 6px;
+}
+.pay-option-main {
+  background: linear-gradient(160deg, #fff4e2, #ffe9c9);
+  border-color: var(--gold);
+  box-shadow: 0 6px 18px rgba(232,89,12,.14);
+}
+.pay-option-title {
+  font-family: 'Yatra One', cursive;
+  font-size: 17px;
+  color: var(--maroon);
+  margin: 0 0 10px;
+}
+.pay-steps {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 4px;
+}
+.pay-steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #5a3a26;
+  margin-bottom: 9px;
+}
+.pay-steps strong { color: var(--maroon); }
+.step-num {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--saffron);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.or-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+  color: #9a7b62;
+  font-size: 13px;
+}
+.or-divider::before, .or-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+.btn-secondary {
+  background: #fff;
+  color: var(--maroon);
+  border: 2px solid var(--saffron);
+}
+.upi-row { display: flex; margin-bottom: 12px; }
+.upi-row code {
+  flex: 1;
+  text-align: center;
+  background: #fff;
+  border: 2px dashed var(--gold);
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--maroon);
+  word-break: break-all;
+  /* one tap selects the whole ID, in case the copy button can't copy */
+  user-select: all;
+  -webkit-user-select: all;
+}
+#open-gpay-hint {
+  background: #fff4e0;
+  border-radius: 10px;
+  padding: 8px 12px;
+  color: #6b4a35;
+}
+
+/* ============ SAVE PHOTO (iPhone) ============ */
+.save-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(30,4,8,.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn .3s ease;
+}
+.save-sheet { width: 100%; max-width: 420px; text-align: center; }
+.save-sheet img {
+  display: block;
+  width: 100%;
+  max-height: 68vh;
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0,0,0,.6);
+  /* allow iOS's press-and-hold "Save to Photos" menu */
+  -webkit-touch-callout: default;
+  user-select: auto;
+}
+.save-instructions { color: var(--gold-soft); font-size: 15px; line-height: 1.5; margin: 16px 0 4px; }
+.save-instructions strong { color: var(--gold); }
+
+/* ============ TOAST ============ */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 210;
+  background: var(--maroon);
+  color: var(--gold-soft);
+  border: 1px solid var(--gold);
+  font-size: 14px;
+  padding: 11px 18px;
+  border-radius: 24px;
+  box-shadow: 0 6px 20px rgba(0,0,0,.35);
+  white-space: nowrap;
+  animation: toastIn .3s ease;
+}
+@keyframes toastIn {
+  from { opacity: 0; transform: translate(-50%, 12px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--gold-soft);
+  font-size: 13px;
+  padding: 10px 0 28px;
+}
+
+@media (max-width: 380px) {
+  main.card { margin: 16px 12px; padding: 24px 18px; }
+  h1 { font-size: 22px; }
+  h2 { font-size: 19px; }
+  .bappa-circle-lg { --size: 176px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
