@@ -4,7 +4,7 @@
 
 // Your UPI ID, shown on the offering screen for guests to copy.
 // Find it in GPay: Profile photo -> Bank account -> your UPI ID.
-// It must be the same account as the printed Offering Box QR.
+// It must be the same account as the Offering Digi-Box QR on the poster.
 const UPI_ID = "deshmusn@okaxis";
 
 // First day of your celebration, as YYYY-MM-DD. Used for the "Day 3 of our
@@ -593,10 +593,19 @@ customAmountInput.addEventListener("input", () => {
 // pre-filled with a *personal* UPI ID ("exceeded bank limit / money not
 // debited"), whatever the amount -- only merchant UPI IDs are allowed that.
 // So guests pay the two ways GPay always allows between people: scanning a
-// QR with GPay's own scanner (the Offering Box QR at Bappa's feet), or
+// QR with GPay's own scanner (the Offering Digi-Box QR on the poster), or
 // entering a UPI ID. The site copies the UPI ID and opens GPay for them.
 
 const GPAY_ANDROID_PACKAGE = "com.google.android.apps.nbu.paisa.user";
+
+// How "Open GPay" opens the app on Android. Chrome only lets a website open
+// app screens that accept links, and GPay's home screen isn't one of them,
+// so this uses a payment-style link with NO payee -- meant to open GPay
+// without landing on a pay-to-you screen that GPay would block at the PIN.
+// If it misbehaves on a real phone, open test-open-gpay.html on that phone,
+// find the option that opens GPay best, and paste its link here.
+const ANDROID_OPEN_GPAY_LINK =
+  `intent://pay#Intent;scheme=upi;package=${GPAY_ANDROID_PACKAGE};end`;
 
 let openAppTimer = null;
 
@@ -648,25 +657,13 @@ function openGpay() {
 
   const platform = getPlatform();
   if (platform === "android") {
-    // Launch the GPay app itself. If Chrome can't, it follows the fallback
-    // URL instead: this same page plus a #fragment, which doesn't reload the
-    // page -- it just shows the "open it yourself" hint.
-    const fallback = encodeURIComponent(location.href.split("#")[0] + "#gpay-not-opened");
-    location.href = "intent:#Intent;action=android.intent.action.MAIN;" +
-      `category=android.intent.category.LAUNCHER;package=${GPAY_ANDROID_PACKAGE};` +
-      `S.browser_fallback_url=${fallback};end`;
+    location.href = ANDROID_OPEN_GPAY_LINK;
   } else if (platform === "ios") {
     // GPay India claims the tez:// scheme on iPhone.
     location.href = "tez://";
   }
   // On a computer there's no GPay to open, so the hint shows after the timer.
 }
-
-window.addEventListener("hashchange", () => {
-  if (location.hash !== "#gpay-not-opened") return;
-  history.replaceState(null, "", location.pathname + location.search);
-  showOpenGpayHint();
-});
 
 async function copyText(text) {
   if (navigator.clipboard && window.isSecureContext) {

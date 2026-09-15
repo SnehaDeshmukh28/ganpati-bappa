@@ -484,6 +484,7 @@ input:focus, textarea:focus { outline: none; border-color: var(--saffron); }
 }
 
 /* ============ PLACE THE OFFERING ============ */
+
 .pay-option {
   text-align: left;
   background: #fffdf8;
